@@ -5,9 +5,9 @@
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <PackageVersion>1.0.0</PackageVersion>
         <Authors>Ingvar</Authors>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <Description>Lightweight library with .Net Core DI extension methods</Description>
         <PackageProjectUrl>https://github.com/ingvar1995/Utapau</PackageProjectUrl>
-        <PackageLicenseUrl />
         <RepositoryUrl>https://github.com/ingvar1995/Utapau</RepositoryUrl>
     </PropertyGroup>
 

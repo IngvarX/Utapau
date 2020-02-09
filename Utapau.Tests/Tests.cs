@@ -21,8 +21,9 @@ namespace Utapau.Tests
         [Test]
         public void TestSingleton()
         {
-            _services.AddSingleton<IService, FirstService>(FirstServiceDependencyName);
-            _services.AddSingleton<IService, SecondService>(SecondServiceDependencyName);
+            _services
+                .AddSingleton<IService, FirstService>(FirstServiceDependencyName)
+                .AddSingleton<IService, SecondService>(SecondServiceDependencyName);
 
             VerifyServices();
         }
@@ -30,8 +31,9 @@ namespace Utapau.Tests
         [Test]
         public void TestScoped()
         {
-            _services.AddScoped<IService, FirstService>(FirstServiceDependencyName);
-            _services.AddScoped<IService, SecondService>(SecondServiceDependencyName);
+            _services
+                .AddScoped<IService, FirstService>(FirstServiceDependencyName)
+                .AddScoped<IService, SecondService>(SecondServiceDependencyName);
 
             VerifyServices();
         }
@@ -39,8 +41,9 @@ namespace Utapau.Tests
         [Test]
         public void TestTransient()
         {
-            _services.AddTransient<IService, FirstService>(FirstServiceDependencyName);
-            _services.AddTransient<IService, SecondService>(SecondServiceDependencyName);
+            _services
+                .AddTransient<IService, FirstService>(FirstServiceDependencyName)
+                .AddTransient<IService, SecondService>(SecondServiceDependencyName);
 
             VerifyServices();
         }

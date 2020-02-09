@@ -5,7 +5,7 @@ using Utapau.Tests.Services;
 
 namespace Utapau.Tests
 {
-    public class Tests
+    public class NamedRegistrationsTests
     {
         private const string FirstServiceDependencyName = nameof(FirstService);
         private const string SecondServiceDependencyName = nameof(SecondService);

@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System;
+using System.Linq;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Utapau
 {
@@ -27,6 +29,20 @@ namespace Utapau
         {
             DependencyDictionary.Register<TInterface, TImplementation>(dependencyName);
             services.AddTransient<TImplementation>();
+            
+            return services;
+        }
+
+        public static IServiceCollection AddFactory<T>(
+            this IServiceCollection services) where T : class
+        {
+            var type = typeof(T);
+            if (services.All(s => s.ServiceType != type))
+            {
+                throw new InvalidOperationException($"No service for {type.FullName} has been registered");
+            }
+            
+            services.AddSingleton<Func<T>>(sp => sp.GetRequiredService<T>);
             
             return services;
         }

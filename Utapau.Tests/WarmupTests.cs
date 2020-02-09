@@ -14,6 +14,12 @@ namespace Utapau.Tests
         {
             _services = new ServiceCollection();
         }
+        
+        [Test]
+        public void TestDefaultRegistrations()
+        {
+            Assert.DoesNotThrow(ResolveAllServices);
+        }
 
         [Test]
         public void TestWarmup()
@@ -22,10 +28,8 @@ namespace Utapau.Tests
                 .AddSingleton<FirstService>()
                 .AddSingleton<SecondService>()
                 .AddSingleton<ThirdService>();
-
-            void ResolveAllServicesAction() => _services.ResolveAllServices();
             
-            Assert.DoesNotThrow(ResolveAllServicesAction);
+            Assert.DoesNotThrow(ResolveAllServices);
         }
         
         [Test]
@@ -34,10 +38,10 @@ namespace Utapau.Tests
             _services
                 .AddSingleton<FirstService>()
                 .AddSingleton<ThirdService>();
-
-            void ResolveAllServicesAction() => _services.ResolveAllServices();
             
-            Assert.Throws<InvalidOperationException>(ResolveAllServicesAction);
+            Assert.Throws<InvalidOperationException>(ResolveAllServices);
         }
+
+        private void ResolveAllServices() => _services.ResolveAllServices();
     }
 }

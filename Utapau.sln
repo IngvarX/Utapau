@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utapau", "Utapau\Utapau.csproj", "{0D801DFA-45FD-4A4B-AF5C-799105F60145}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5BC71166-CBBF-40B8-93BB-93F82DA1F907}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{07642731-27E4-4A2A-90F6-6B205F6BB34B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utapau.Tests", "Utapau.Tests\Utapau.Tests.csproj", "{7FFF06AB-C2A2-4131-8DDC-89D8D3A33C74}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0D801DFA-45FD-4A4B-AF5C-799105F60145}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D801DFA-45FD-4A4B-AF5C-799105F60145}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D801DFA-45FD-4A4B-AF5C-799105F60145}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D801DFA-45FD-4A4B-AF5C-799105F60145}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FFF06AB-C2A2-4131-8DDC-89D8D3A33C74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FFF06AB-C2A2-4131-8DDC-89D8D3A33C74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FFF06AB-C2A2-4131-8DDC-89D8D3A33C74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FFF06AB-C2A2-4131-8DDC-89D8D3A33C74}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0D801DFA-45FD-4A4B-AF5C-799105F60145} = {5BC71166-CBBF-40B8-93BB-93F82DA1F907}
+		{7FFF06AB-C2A2-4131-8DDC-89D8D3A33C74} = {07642731-27E4-4A2A-90F6-6B205F6BB34B}
+	EndGlobalSection
+EndGlobal

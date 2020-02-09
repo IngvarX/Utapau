@@ -33,8 +33,7 @@ namespace Utapau
             return services;
         }
 
-        public static IServiceCollection AddFactory<T>(
-            this IServiceCollection services) where T : class
+        public static IServiceCollection AddFactory<T>(this IServiceCollection services) where T : class
         {
             var type = typeof(T);
             if (services.All(s => s.ServiceType != type))
@@ -43,6 +42,23 @@ namespace Utapau
             }
             
             services.AddSingleton<Func<T>>(sp => sp.GetRequiredService<T>);
+            
+            return services;
+        }
+
+        public static IServiceCollection ResolveAllServices(this IServiceCollection services)
+        {
+            using (var serviceProvider = services.BuildServiceProvider())
+            {
+                var types = services
+                    .Select(s => s.ServiceType)
+                    .Where(t => !t.IsAbstract);
+
+                foreach (var type in types)
+                {
+                    serviceProvider.GetRequiredService(type);
+                }
+            }
             
             return services;
         }

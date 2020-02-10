@@ -21,7 +21,11 @@ namespace Utapau
             {
                 Dictionary[interfaceType] = new Dictionary<string, Type>();
             }
-
+            else if (Dictionary[interfaceType].ContainsKey(name))
+            {
+                throw new InvalidOperationException($"Service {name} has been already registered");
+            }
+            
             Dictionary[interfaceType][name] = implementationType;
         }
         
@@ -31,10 +35,20 @@ namespace Utapau
             
             if (!Dictionary.ContainsKey(interfaceType))
             {
+                throw new KeyNotFoundException(nameof(interfaceType));
+            }
+            
+            if (!Dictionary[interfaceType].ContainsKey(name))
+            {
                 throw new KeyNotFoundException(nameof(name));
             }
 
             return Dictionary[interfaceType][name];
+        }
+
+        public static void Clear()
+        {
+            Dictionary.Clear();
         }
     }
 }

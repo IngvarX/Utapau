@@ -5,16 +5,8 @@ using Utapau.Tests.Services;
 
 namespace Utapau.Tests
 {
-    public class WarmupTests
+    public class WarmupTests : TestsBase
     {
-        private IServiceCollection _services;
-        
-        [SetUp]
-        public void Setup()
-        {
-            _services = new ServiceCollection();
-        }
-        
         [Test]
         public void TestDefaultRegistrations()
         {
@@ -24,7 +16,7 @@ namespace Utapau.Tests
         [Test]
         public void TestWarmup()
         {
-            _services
+            Services
                 .AddSingleton<FirstService>()
                 .AddSingleton<SecondService>()
                 .AddSingleton<ThirdService>();
@@ -35,13 +27,13 @@ namespace Utapau.Tests
         [Test]
         public void TestWarmupException()
         {
-            _services
+            Services
                 .AddSingleton<FirstService>()
                 .AddSingleton<ThirdService>();
             
             Assert.Throws<InvalidOperationException>(ResolveAllServices);
         }
 
-        private void ResolveAllServices() => _services.ResolveAllServices();
+        private void ResolveAllServices() => Services.ResolveAllServices();
     }
 }

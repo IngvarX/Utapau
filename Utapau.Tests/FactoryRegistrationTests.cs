@@ -5,24 +5,17 @@ using Utapau.Tests.Services;
 
 namespace Utapau.Tests
 {
-    public class FactoryRegistrationTests
+    public class FactoryRegistrationTests : TestsBase
     {
-        private IServiceCollection _services;
-
-        [SetUp]
-        public void Setup()
-        {
-            _services = new ServiceCollection();
-        }
 
         [Test]
         public void TestFactory()
         {
-            _services
+            Services
                 .AddScoped<IService, SecondService>()
                 .AddFactory<IService>();
 
-            using var serviceProvider = _services.BuildServiceProvider();
+            using var serviceProvider = BuildServiceProvider();
 
             var serviceFactory = serviceProvider.GetRequiredService<Func<IService>>();
             Assert.NotNull(serviceFactory);
@@ -35,7 +28,7 @@ namespace Utapau.Tests
         [Test]
         public void TestFactoryException()
         {
-            void RegisterFactoryAction() => _services.AddFactory<IService>();
+            void RegisterFactoryAction() => Services.AddFactory<IService>();
             
             Assert.Throws<InvalidOperationException>(RegisterFactoryAction);
         }

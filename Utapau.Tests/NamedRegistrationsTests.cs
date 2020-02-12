@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using NUnit.Framework;
+using Utapau.NamedDependencies;
 using Utapau.Tests.Services;
 
 namespace Utapau.Tests

@@ -3,7 +3,7 @@
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <PackageVersion>1.2.0</PackageVersion>
+        <PackageVersion>1.3.0</PackageVersion>
         <Authors>Ingvar</Authors>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <Description>Lightweight library with .Net Core DI extension methods</Description>
@@ -12,6 +12,8 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
+      <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.1" />
     </ItemGroup>
 

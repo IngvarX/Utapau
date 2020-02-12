@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
+using Utapau.Providers;
 using Utapau.Tests.Services;
 
 namespace Utapau.Tests

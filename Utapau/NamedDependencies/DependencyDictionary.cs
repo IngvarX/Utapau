@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Utapau
+namespace Utapau.NamedDependencies
 {
     internal static class DependencyDictionary
     {

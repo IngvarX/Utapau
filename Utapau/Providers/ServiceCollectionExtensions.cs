@@ -22,6 +22,8 @@ namespace Utapau.Providers
         /// <returns>A reference to this instance after the operation has completed.</returns>
         public static IServiceCollection AddProvider<TService>(this IServiceCollection services)
         {
+            ThrowIfTypeIsNotRegistered<TService>(services);
+            
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IProvider<TService>, Provider<TService>>();
             
@@ -37,11 +39,7 @@ namespace Utapau.Providers
         /// <returns>A reference to this instance after the operation has completed.</returns>
         public static IServiceCollection AddFactory<TService>(this IServiceCollection services) where TService : class
         {
-            var type = typeof(TService);
-            if (services.All(s => s.ServiceType != type))
-            {
-                throw new InvalidOperationException($"No service for {type.FullName} has been registered");
-            }
+            ThrowIfTypeIsNotRegistered<TService>(services);
             
             services.AddSingleton<Func<TService>>(sp => sp.GetRequiredService<TService>);
             
@@ -57,15 +55,20 @@ namespace Utapau.Providers
         /// <returns>A reference to this instance after the operation has completed.</returns>
         public static IServiceCollection AddLazy<TService>(this IServiceCollection services) where TService : class
         {
+            ThrowIfTypeIsNotRegistered<TService>(services);
+            
+            services.AddSingleton(sp => new Lazy<TService>(sp.GetRequiredService<TService>));
+            
+            return services;
+        }
+
+        private static void ThrowIfTypeIsNotRegistered<TService>(IServiceCollection services)
+        {
             var type = typeof(TService);
             if (services.All(s => s.ServiceType != type))
             {
                 throw new InvalidOperationException($"No service for {type.FullName} has been registered");
             }
-            
-            services.AddSingleton(sp => new Lazy<TService>(sp.GetRequiredService<TService>));
-            
-            return services;
         }
     }
 }

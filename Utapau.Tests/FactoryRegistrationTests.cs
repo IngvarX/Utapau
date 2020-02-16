@@ -8,7 +8,6 @@ namespace Utapau.Tests
 {
     public class FactoryRegistrationTests : TestsBase
     {
-
         [Test]
         public void TestFactory()
         {

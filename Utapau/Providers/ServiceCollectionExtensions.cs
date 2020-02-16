@@ -47,5 +47,25 @@ namespace Utapau.Providers
             
             return services;
         }
+        
+        /// <summary>
+        /// Adds lazy of the type specified in <typeparamref name="TService"/> to the
+        /// specified <see cref="IServiceCollection"/>.
+        /// </summary>
+        /// <typeparam name="TService">The type of the service to add.</typeparam>
+        /// <param name="services">The <see cref="IServiceCollection"/> to add the service to.</param>
+        /// <returns>A reference to this instance after the operation has completed.</returns>
+        public static IServiceCollection AddLazy<TService>(this IServiceCollection services) where TService : class
+        {
+            var type = typeof(TService);
+            if (services.All(s => s.ServiceType != type))
+            {
+                throw new InvalidOperationException($"No service for {type.FullName} has been registered");
+            }
+            
+            services.AddSingleton(sp => new Lazy<TService>(sp.GetRequiredService<TService>));
+            
+            return services;
+        }
     }
 }

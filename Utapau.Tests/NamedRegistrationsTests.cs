@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using Microsoft.Extensions.DependencyInjection;
+using Moq;
 using NUnit.Framework;
 using Utapau.NamedDependencies;
 using Utapau.Tests.Services;
@@ -68,6 +70,23 @@ namespace Utapau.Tests
             void GetService() => serviceProvider.GetRequiredService<IService>(FirstServiceDependencyName);
             
             Assert.Throws<KeyNotFoundException>(GetService);
+        }
+        
+        [Test]
+        public void TestFactory()
+        {
+            Services
+                .AddSingleton<IService, FirstService>(FirstServiceDependencyName)
+                .AddSingleton<IService, SecondService>(SecondServiceDependencyName)
+                .AddSingleton(sp => new ForthService(
+                    sp.GetRequiredService<IService>(FirstServiceDependencyName),
+                    sp.GetRequiredService<IService>(SecondServiceDependencyName)
+                ));
+            
+            using var serviceProvider = BuildServiceProvider();
+            var forthService = serviceProvider.GetRequiredService<ForthService>();
+            Assert.True(forthService.FirstService is FirstService);
+            Assert.True(forthService.SecondService is SecondService);
         }
         
         [Test]

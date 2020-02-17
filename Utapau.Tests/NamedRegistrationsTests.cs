@@ -73,6 +73,18 @@ namespace Utapau.Tests
         }
         
         [Test]
+        public void TestKeyForServiceNotFoundException()
+        {
+            Services
+                .AddSingleton<IService, FirstService>(FirstServiceDependencyName);
+            
+            using var serviceProvider = BuildServiceProvider();
+            void GetService() => serviceProvider.GetRequiredService<IService>(SecondServiceDependencyName);
+            
+            Assert.Throws<KeyNotFoundException>(GetService);
+        }
+        
+        [Test]
         public void TestFactory()
         {
             Services
@@ -90,14 +102,14 @@ namespace Utapau.Tests
         }
         
         [Test]
-        public void TestServiceKeyNotFoundException()
+        public void TestDoubleRegistrationException()
         {
-            Services.AddSingleton<IService, FirstService>(FirstServiceDependencyName);
+            void RegisterServices() =>
+                Services
+                    .AddSingleton<IService, FirstService>(FirstServiceDependencyName)
+                    .AddSingleton<IService, SecondService>(FirstServiceDependencyName);
             
-            using var serviceProvider = BuildServiceProvider();
-            void GetService() => serviceProvider.GetRequiredService<IService>(SecondServiceDependencyName);
-            
-            Assert.Throws<KeyNotFoundException>(GetService);
+            Assert.Throws<InvalidOperationException>(RegisterServices);
         }
         
         [Test]

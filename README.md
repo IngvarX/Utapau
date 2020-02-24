@@ -17,10 +17,10 @@ Utapau is a lightweight library with extension methods for built-in .Net Core de
 services
     .AddSingleton<IService, FirstService>(nameof(FirstService))  // register named dependency
     .AddSingleton<IService, SecondService>(nameof(SecondService))  // register named dependency
-    .AddSingleton(sp => new ThirdService(
+    .AddSingleton<IService, ThirdService>(sp => new ThirdService(  // register named dependency using factory
         sp.GetRequiredService<IService>(nameof(FirstService)),  // resolve named dependency
         sp.GetRequiredService<IService>(nameof(SecondService))  // resolve named dependency
-    ));
+    ), nameof(ThirdService));
 ```
 
 ### Func<T> and Lazy<T> support

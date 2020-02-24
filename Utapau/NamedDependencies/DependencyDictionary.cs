@@ -5,11 +5,11 @@ namespace Utapau.NamedDependencies
 {
     internal static class DependencyDictionary
     {
-        private static readonly IDictionary<Type, IDictionary<string, Type>> Dictionary;
+        private static readonly IDictionary<Type, IDictionary<string, Type>> TypesDictionary;
 
         static DependencyDictionary()
         {
-            Dictionary = new Dictionary<Type, IDictionary<string, Type>>();
+            TypesDictionary = new Dictionary<Type, IDictionary<string, Type>>();
         }
 
         public static void Register<TInterface, TImplementation>(string name) where TImplementation : class
@@ -17,38 +17,38 @@ namespace Utapau.NamedDependencies
             var interfaceType = typeof(TInterface);
             var implementationType = typeof(TImplementation);
             
-            if (!Dictionary.ContainsKey(interfaceType))
+            if (!TypesDictionary.ContainsKey(interfaceType))
             {
-                Dictionary[interfaceType] = new Dictionary<string, Type>();
+                TypesDictionary[interfaceType] = new Dictionary<string, Type>();
             }
-            else if (Dictionary[interfaceType].ContainsKey(name))
+            else if (TypesDictionary[interfaceType].ContainsKey(name))
             {
                 throw new InvalidOperationException($"Service {name} has been already registered");
             }
             
-            Dictionary[interfaceType][name] = implementationType;
+            TypesDictionary[interfaceType][name] = implementationType;
         }
         
         public static Type GetTypeByName<TInterface>(string name)
         {
             var interfaceType = typeof(TInterface);
             
-            if (!Dictionary.ContainsKey(interfaceType))
+            if (!TypesDictionary.ContainsKey(interfaceType))
             {
-                throw new KeyNotFoundException(nameof(interfaceType));
+                throw new KeyNotFoundException(interfaceType.Name);
             }
             
-            if (!Dictionary[interfaceType].ContainsKey(name))
+            if (!TypesDictionary[interfaceType].ContainsKey(name))
             {
-                throw new KeyNotFoundException(nameof(name));
+                throw new KeyNotFoundException(name);
             }
 
-            return Dictionary[interfaceType][name];
+            return TypesDictionary[interfaceType][name];
         }
 
         public static void Clear()
         {
-            Dictionary.Clear();
+            TypesDictionary.Clear();
         }
     }
 }

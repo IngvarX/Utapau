@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Extensions.DependencyInjection;
-using Moq;
 using NUnit.Framework;
 using Utapau.NamedDependencies;
 using Utapau.Tests.Services;
@@ -32,6 +31,28 @@ namespace Utapau.Tests
 
             VerifyExplicitlyRegisteredServices();
         }
+        
+        [Test]
+        public void TestSingletonWithFactory()
+        {
+            Services
+                .AddSingleton<IService, FirstService>(sp =>
+                    new FirstService(), FirstServiceDependencyName)
+                .AddSingleton<IService, SecondService>(sp => new SecondService(),
+            SecondServiceDependencyName);
+
+            VerifyServices();
+        }
+        
+        [Test]
+        public void TestSingletonWithFactoryWithoutInterface()
+        {
+            Services
+                .AddSingleton(sp => new FirstService(), FirstServiceDependencyName)
+                .AddSingleton(sp => new SecondService(), SecondServiceDependencyName);
+
+            VerifyExplicitlyRegisteredServices();
+        }
 
         [Test]
         public void TestScoped()
@@ -52,6 +73,28 @@ namespace Utapau.Tests
 
             VerifyExplicitlyRegisteredServices();
         }
+        
+        [Test]
+        public void TestScopedWithFactory()
+        {
+            Services
+                .AddScoped<IService, FirstService>(sp =>
+                    new FirstService(), FirstServiceDependencyName)
+                .AddScoped<IService, SecondService>(sp => new SecondService(),
+                    SecondServiceDependencyName);
+
+            VerifyServices();
+        }
+        
+        [Test]
+        public void TestAddScopedWithFactoryWithoutInterface()
+        {
+            Services
+                .AddScoped(sp => new FirstService(), FirstServiceDependencyName)
+                .AddScoped(sp => new SecondService(), SecondServiceDependencyName);
+
+            VerifyExplicitlyRegisteredServices();
+        }
 
         [Test]
         public void TestTransient()
@@ -61,6 +104,38 @@ namespace Utapau.Tests
                 .AddTransient<IService, SecondService>(SecondServiceDependencyName);
 
             VerifyServices();
+        }
+        
+        [Test]
+        public void TestTransientWithoutInterface()
+        {
+            Services
+                .AddTransient<FirstService>(FirstServiceDependencyName)
+                .AddTransient<SecondService>(SecondServiceDependencyName);
+
+            VerifyExplicitlyRegisteredServices();
+        }
+        
+        [Test]
+        public void TestTransientWithFactory()
+        {
+            Services
+                .AddTransient<IService, FirstService>(sp =>
+                    new FirstService(), FirstServiceDependencyName)
+                .AddTransient<IService, SecondService>(sp => new SecondService(),
+                    SecondServiceDependencyName);
+
+            VerifyServices();
+        }
+        
+        [Test]
+        public void TestTransientWithFactoryWithoutInterface()
+        {
+            Services
+                .AddTransient(sp => new FirstService(), FirstServiceDependencyName)
+                .AddTransient(sp => new SecondService(), SecondServiceDependencyName);
+
+            VerifyExplicitlyRegisteredServices();
         }
         
         [Test]
@@ -113,13 +188,15 @@ namespace Utapau.Tests
         }
         
         [Test]
-        public void TestTransientWithoutInterface()
+        public void TestFactoryDoubleRegistrationException()
         {
-            Services
-                .AddTransient<FirstService>(FirstServiceDependencyName)
-                .AddTransient<SecondService>(SecondServiceDependencyName);
-
-            VerifyExplicitlyRegisteredServices();
+            void RegisterServices() =>
+                Services
+                    .AddSingleton<IService, FirstService>(FirstServiceDependencyName)
+                    .AddSingleton<IService, FirstService>(sp => new FirstService(),
+                        FirstServiceDependencyName);
+            
+            Assert.Throws<InvalidOperationException>(RegisterServices);
         }
         
         [Test]
@@ -133,6 +210,17 @@ namespace Utapau.Tests
             void GetService() => serviceProvider.GetRequiredService<FirstService>(FirstServiceDependencyName);
             
             Assert.Throws<KeyNotFoundException>(GetService);
+        }
+        
+        [Test]
+        public void TestRegistrationAfterRemovingNamedRegistrations()
+        {
+            void RegisterServices() => Services
+                .AddTransient<FirstService>(FirstServiceDependencyName)
+                .ClearNamedRegistrations()
+                .AddTransient<FirstService>(FirstServiceDependencyName);
+
+            Assert.DoesNotThrow(RegisterServices);
         }
 
         private void VerifyServices()

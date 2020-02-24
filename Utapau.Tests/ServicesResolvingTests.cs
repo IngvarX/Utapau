@@ -6,7 +6,7 @@ using Utapau.Tests.Services;
 
 namespace Utapau.Tests
 {
-    public class WarmupTests : TestsBase
+    public class ServicesResolvingTests : TestsBase
     {
         [Test]
         public void TestDefaultRegistrations()
@@ -15,7 +15,7 @@ namespace Utapau.Tests
         }
 
         [Test]
-        public void TestWarmup()
+        public void TestResolve()
         {
             Services
                 .AddSingleton<FirstService>()
@@ -26,7 +26,7 @@ namespace Utapau.Tests
         }
         
         [Test]
-        public void TestWarmupException()
+        public void TestResolveException()
         {
             Services
                 .AddSingleton<FirstService>()
@@ -36,7 +36,7 @@ namespace Utapau.Tests
         }
         
         [Test]
-        public void TestFilteredWarmup()
+        public void TestFilteredResolving()
         {
             Services
                 .AddSingleton<FirstService>()

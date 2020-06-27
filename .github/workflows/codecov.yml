@@ -1,9 +1,11 @@
-- name: Codecov
-  on:
+name: Codecov
+on:
   push:
     branches:
       - master # Default release branch
-  uses: codecov/codecov-action@v1.0.7
-  with:
-    # User defined upload name. Visible in Codecov UI
-    name: Utapau
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+       - uses: codecov/codecov-action@v1.0.7
+       - name: Utapau

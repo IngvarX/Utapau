@@ -1,0 +1,5 @@
+- name: Codecov
+  uses: codecov/codecov-action@v1.0.7
+  with:
+    name: Utapau
+    fail_ci_if_error: true
